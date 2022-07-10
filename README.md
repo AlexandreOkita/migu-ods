@@ -2,7 +2,7 @@
 
 Migu é uma plataforma que usa AI para ajudar a equipe de People & Culture a criar um programa de buddies para acolher e integrar novos funcionários.
 
-![image](asset/logobranca.png)
+![image](asset/logo2.png)
 
 ## Funcionalidades no Protótipo
 
@@ -12,6 +12,8 @@ O protótipo possui como principal função mostrar como seria a visão do uso d
 - Visualização das monitorias ativas
 - Visualização das melhores sugestões para mentor (mockado)
 - Adicionar novo funcionário na empresa (mockado)
+
+<img width="1785" alt="image" src="https://user-images.githubusercontent.com/37855969/178153025-3c50178b-0869-4393-be9c-21f9eeb8f1a6.png">
 
 ## Implementação e Próximos Passos
 
