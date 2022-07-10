@@ -25,6 +25,9 @@ O projeto foi implementado com o framework flutter e integrado com o banco de da
   - O modelo já está criado, sendo necessário apenas subir uma api simples utilizando o framework Flask
 - Desenvolvimento do dashboard (não priorizado para o protótipo durante o hackathon)
 
+<img width="1263" alt="image" src="https://user-images.githubusercontent.com/37855969/178153596-766c9c58-6609-4811-9b29-c952dfdbe932.png">
+
+
 ## Exploração dos Dados e Geração do Modelo
 
 Para a exploração dos dados e geração do modelo de ML, nós utilizamos um dataset público e, para fins de teste, construímos um dataset anonimizado a partir dos participantes do Hackathon Virada ODS 2022.
