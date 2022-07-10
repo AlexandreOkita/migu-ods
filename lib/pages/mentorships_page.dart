@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:migu/components/add_new_employee_button.dart';
 import 'package:migu/components/employee_tile_list.dart';
 import 'package:migu/components/mentor_mentorship_relation.dart';
+import 'package:collection/collection.dart';
 
 class MentorshipsPage extends StatefulWidget {
   const MentorshipsPage({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class MentorshipsPage extends StatefulWidget {
 
 class _MentorshipsPageState extends State<MentorshipsPage> {
   List<String> pendingEmployeesList = [];
+  List<String> matchList = ["asd", "asd"];
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +100,7 @@ class _MentorshipsPageState extends State<MentorshipsPage> {
                   ),
                 ],
               ),
+              matchList.isNotEmpty ? MatchMentorships(matchList: matchList) : Container(),
               pendingEmployeesList.isNotEmpty
                   ? PendingEmployees(
                       pendingEmployeesList: pendingEmployeesList,
@@ -210,6 +213,88 @@ class ActiveMentorships extends StatelessWidget {
               )
               .toList(),
         ),
+      ],
+    );
+  }
+}
+
+class MatchMentorships extends StatefulWidget {
+  final List<String> matchList;
+  const MatchMentorships({Key? key, required this.matchList}) : super(key: key);
+
+  @override
+  State<MatchMentorships> createState() => _MatchMentorshipsState();
+}
+
+class _MatchMentorshipsState extends State<MatchMentorships> {
+  var _selectedIndex = -1;
+
+  updatedSelectedIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Match!",
+          style: textTheme.headline4,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          "Veja os mentores recomendados para os seguintes aprendizes",
+          style: textTheme.bodyText2,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Center(
+          child: Card(
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Flexible(child: EmployeeListTile()),
+                  Flexible(
+                    child: Icon(
+                      Icons.compare_arrows,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  Flexible(
+                    child: Column(
+                      children: widget.matchList
+                          .sublist(0, 2)
+                          .mapIndexed((index, e) => EmployeeListTile(
+                                selected: index == _selectedIndex,
+                                onTap: () => updatedSelectedIndex(index),
+                              ))
+                          .toList(),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        _selectedIndex >= 0
+            ? Center(child: ElevatedButton(onPressed: () {}, child: const Text("Confirmar")))
+            : Container(),
+        const SizedBox(
+          height: 30,
+        )
       ],
     );
   }
