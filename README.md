@@ -27,6 +27,22 @@ O projeto foi implementado com o framework flutter e integrado com o banco de da
 
 ## Exploração dos Dados e Geração do Modelo
 
+Para a exploração dos dados e geração do modelo de ML, nós utilizamos um dataset público e, para fins de teste, construímos um dataset anonimizado a partir dos participantes do Hackathon Virada ODS 2022.
+
+<img width="823" alt="image" src="https://user-images.githubusercontent.com/37855969/178153302-9b8a662b-76c1-4ecf-84cc-b403e542fa70.png">
+
+
+É possível ver a análise dos dados a partir dos notebooks:
+
+https://github.com/AlexandreOkita/migu-ods/blob/main/experimental_kmeans.ipynb
+https://github.com/AlexandreOkita/migu-ods/blob/main/migo.ipynb
+
+Como resultado final  nós conseguimos um Silhouette Coefficient de *0.708*, valor que julgamos muito bom para um base de dados de 50 entradas.
+
+![image](https://user-images.githubusercontent.com/37855969/178153185-738e6837-b354-4046-a716-2694727b7bad.png)
+
+
+
 ## Como rodar?
 
 Para executar o projeto pode ser executado os seguintes comandos em uma instância com o framework flutter já configurado:
