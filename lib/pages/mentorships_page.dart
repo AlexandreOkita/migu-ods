@@ -3,23 +3,30 @@ import 'package:migu/components/add_new_employee_button.dart';
 import 'package:migu/components/employee_tile_list.dart';
 import 'package:migu/components/mentor_mentorship_relation.dart';
 
-class MentorshipsPage extends StatelessWidget {
+class MentorshipsPage extends StatefulWidget {
   const MentorshipsPage({Key? key}) : super(key: key);
+
+  @override
+  State<MentorshipsPage> createState() => _MentorshipsPageState();
+}
+
+class _MentorshipsPageState extends State<MentorshipsPage> {
+  List<String> pendingEmployeesList = [];
 
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     return Scaffold(
       body: Padding(
         padding:
             EdgeInsets.symmetric(vertical: screen.height * 0.02, horizontal: screen.width * 0.05),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Flexible(
-              flex: 1,
-              child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
@@ -34,20 +41,71 @@ class MentorshipsPage extends StatelessWidget {
                     height: 5,
                   ),
                   AddNewEmployeeButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                "Adicionar novo funcionário",
+                                style: theme.textTheme.bodyText1,
+                              ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Form(
+                                      child: Column(
+                                    children: [
+                                      TextFormField(
+                                        decoration:
+                                            const InputDecoration(labelText: "Nome do Funcionário"),
+                                      ),
+                                      TextFormField(
+                                        decoration: const InputDecoration(
+                                            labelText: "Email do Funcionário"),
+                                      ),
+                                      TextFormField(
+                                        decoration:
+                                            const InputDecoration(labelText: "Área do Funcionário"),
+                                      ),
+                                    ],
+                                  ))
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("Cancel"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      pendingEmployeesList.add("asd");
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("OK"),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                 ],
               ),
-            ),
-            const Flexible(
-              flex: 1,
-              child: PendingEmployees(),
-            ),
-            const Flexible(
-              flex: 2,
-              child: ActiveMentorships(),
-            ),
-          ],
+              pendingEmployeesList.isNotEmpty
+                  ? PendingEmployees(
+                      pendingEmployeesList: pendingEmployeesList,
+                    )
+                  : Container(),
+              const ActiveMentorships(),
+            ],
+          ),
         ),
       ),
     );
@@ -55,7 +113,9 @@ class MentorshipsPage extends StatelessWidget {
 }
 
 class PendingEmployees extends StatelessWidget {
-  const PendingEmployees({Key? key}) : super(key: key);
+  const PendingEmployees({Key? key, required this.pendingEmployeesList}) : super(key: key);
+
+  final List<String> pendingEmployeesList;
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +137,18 @@ class PendingEmployees extends StatelessWidget {
         const SizedBox(
           height: 30,
         ),
-        const EmployeeListTile(),
-        const Divider(),
+        Column(
+            children: pendingEmployeesList
+                .map((e) => Column(
+                      children: const [
+                        EmployeeListTile(),
+                        Divider(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ))
+                .toList()),
       ],
     );
   }
@@ -87,6 +157,9 @@ class PendingEmployees extends StatelessWidget {
 class ActiveMentorships extends StatelessWidget {
   const ActiveMentorships({Key? key}) : super(key: key);
   final relationList = const [
+    MentorMentorshipRelation(),
+    MentorMentorshipRelation(),
+    MentorMentorshipRelation(),
     MentorMentorshipRelation(),
     MentorMentorshipRelation(),
     MentorMentorshipRelation(),
@@ -121,17 +194,21 @@ class ActiveMentorships extends StatelessWidget {
         const SizedBox(
           height: 30,
         ),
-        Expanded(
-          child: ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return relationList[index];
-            },
-            padding: EdgeInsets.zero,
-            itemCount: relationList.length,
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider();
-            },
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: relationList
+              .map(
+                (e) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    e,
+                    const SizedBox(height: 10),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              )
+              .toList(),
         ),
       ],
     );
